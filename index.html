@@ -10,11 +10,12 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 <style>
 :root{
-  --bg:#eef0f8;--card:#fff;--navy:#0e1535;--blue:#1e3fd6;--blue-dark:#142a9c;
-  --blue-pale:#e8edfc;--teal:#16a87a;--coral:#e8543c;--gold:#d99a1b;--violet:#6a4fe0;
-  --text:#0e1535;--dim:#5a6078;--faint:#9399ab;--border:#e3e8f0;--border2:#f0f3f9;
-  --shadow:0 1px 3px rgba(14,21,53,.04),0 6px 20px -6px rgba(14,21,53,.08);
-  --shadow-sm:0 1px 2px rgba(14,21,53,.06),0 2px 8px -2px rgba(14,21,53,.06);
+  --bg:#eef1f6;--card:#fff;--navy:#1a3a5c;--blue:#2d5ec5;--blue-dark:#2d6080;
+  --blue-light:#3d92d0;--blue-pale:#e4edf8;--blue-pale2:#d5e5f5;
+  --teal:#16a87a;--coral:#e8543c;--gold:#d99a1b;--violet:#3d92d0;
+  --text:#1a3a5c;--dim:#3d5a78;--faint:#7a96b0;--border:#dde8f0;--border2:#edf3f8;
+  --shadow:0 1px 3px rgba(26,58,92,.05),0 6px 20px -6px rgba(26,58,92,.10);
+  --shadow-sm:0 1px 2px rgba(26,58,92,.06),0 2px 8px -2px rgba(26,58,92,.07);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:13px;line-height:1.5;min-height:100vh}
@@ -26,7 +27,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 /* ── HEADER ── */
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:12px}
 .header-left{display:flex;align-items:center;gap:12px}
-.brand-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--blue-dark));display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.brand-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--blue-dark),var(--navy));display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .brand-icon svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .brand-text h1{font-size:17px;font-weight:800;letter-spacing:-.3px;color:var(--navy)}
 .brand-text p{font-size:11px;color:var(--dim);margin-top:1px}
@@ -38,7 +39,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .filter-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:6px 12px;font-size:11px;font-weight:600;color:rgba(255,255,255,.85);cursor:default;white-space:nowrap}
 .filter-pill svg{width:12px;height:12px;stroke:rgba(255,255,255,.5);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .filter-sep{width:1px;height:20px;background:rgba(255,255,255,.1);flex-shrink:0}
-.filter-active{background:rgba(30,63,214,.35);border-color:rgba(30,63,214,.6);color:#fff}
+.filter-active{background:rgba(45,94,197,.35);border-color:rgba(45,94,197,.6);color:#fff}
 
 /* ── KPI ROW ── */
 .kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
@@ -65,7 +66,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .dark-receita-label{font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.35)}
 .dark-receita-val{font-size:20px;font-weight:800;letter-spacing:-.8px;color:#fff}
 .dark-receita-sub{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px}
-.meta-highlight{background:rgba(30,63,214,.25);border:1px solid rgba(30,63,214,.35);border-radius:10px;padding:10px 14px;margin-top:12px;font-size:11px;color:rgba(255,255,255,.7)}
+.meta-highlight{background:rgba(45,94,197,.25);border:1px solid rgba(45,94,197,.35);border-radius:10px;padding:10px 14px;margin-top:12px;font-size:11px;color:rgba(255,255,255,.7)}
 .meta-highlight b{color:#fff;font-weight:700}
 
 /* ── GRID ── */
@@ -82,7 +83,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .funnel-step{margin-bottom:14px}
 .funnel-step:last-child{margin-bottom:0}
 .funnel-step-top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-.funnel-num{width:24px;height:24px;border-radius:50%;background:var(--blue-pale);color:var(--blue);font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;letter-spacing:.3px}
+.funnel-num{width:24px;height:24px;border-radius:50%;background:var(--blue-pale);color:var(--navy);font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;letter-spacing:.3px}
 .funnel-step-label{font-size:12px;font-weight:600;color:var(--dim);flex:1}
 .funnel-step-val{font-size:14px;font-weight:800;color:var(--navy)}
 .funnel-step-pct{font-size:10px;color:var(--faint);margin-left:4px}
@@ -124,7 +125,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;display:inline-block}
 .badge-teal{background:rgba(22,168,122,.12);color:var(--teal)}
 .badge-coral{background:rgba(232,84,60,.12);color:var(--coral)}
-.badge-blue{background:rgba(30,63,214,.10);color:var(--blue)}
+.badge-blue{background:rgba(45,94,197,.10);color:var(--blue)}
 .badge-gold{background:rgba(217,154,27,.12);color:var(--gold)}
 
 /* ── BAR LIST ── */
@@ -217,7 +218,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
   <!-- KPI ROW -->
   <div class="kpi-row">
     <div class="kpi-card">
-      <div class="kpi-icon" style="background:rgba(30,63,214,.08)">
+      <div class="kpi-icon" style="background:rgba(45,94,197,.08)">
         <svg style="stroke:var(--blue)" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       </div>
       <div>
@@ -549,7 +550,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
           <span class="bar-list-name">Perdeu um dente?</span>
           <span class="bar-list-meta">R$ 6.597 · 314 conv · CPR R$ 21,01</span>
         </div>
-        <div class="bar-list-track"><div class="bar-list-fill" style="width:100%;background:linear-gradient(90deg,var(--blue),var(--blue-dark))"></div></div>
+        <div class="bar-list-track"><div class="bar-list-fill" style="width:100%;background:linear-gradient(90deg,var(--blue),var(--navy))"></div></div>
       </div>
       <div class="bar-list-item">
         <div class="bar-list-header">
@@ -718,7 +719,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
     type: 'doughnut',
     data: {
       labels: ['Responderam','Sem resposta'],
-      datasets:[{ data: [97,149], backgroundColor: ['#1e3fd6','#e3e8f0'], borderWidth:0, hoverOffset:4 }]
+      datasets:[{ data: [97,149], backgroundColor: ['#2d5ec5','#dde8f0'], borderWidth:0, hoverOffset:4 }]
     },
     options: { cutout:'70%', plugins:{ legend:{display:false}, tooltip:{enabled:true} }, responsive:true, maintainAspectRatio:false }
   });
@@ -731,7 +732,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
     type: 'doughnut',
     data: {
       labels: ['Facebook','Instagram','N/Identificado'],
-      datasets:[{ data:[197,4,45], backgroundColor:['#1e3fd6','#e8543c','#e3e8f0'], borderWidth:0, hoverOffset:4 }]
+      datasets:[{ data:[197,4,45], backgroundColor:['#2d5ec5','#e8543c','#dde8f0'], borderWidth:0, hoverOffset:4 }]
     },
     options: { cutout:'70%', plugins:{ legend:{display:false}, tooltip:{enabled:true} }, responsive:true, maintainAspectRatio:false }
   });
@@ -744,7 +745,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
     type: 'doughnut',
     data: {
       labels: ['Mulher','Homem','N/Identificado'],
-      datasets:[{ data:[148,71,27], backgroundColor:['#6a4fe0','#16a87a','#e3e8f0'], borderWidth:0, hoverOffset:4 }]
+      datasets:[{ data:[148,71,27], backgroundColor:['#2d6080','#3d92d0','#dde8f0'], borderWidth:0, hoverOffset:4 }]
     },
     options: { cutout:'70%', plugins:{ legend:{display:false}, tooltip:{enabled:true} }, responsive:true, maintainAspectRatio:false }
   });
@@ -754,8 +755,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 (function(){
   const ctx = document.getElementById('chart-leads-monthly').getContext('2d');
   const grad = ctx.createLinearGradient(0,0,0,200);
-  grad.addColorStop(0,'rgba(30,63,214,.12)');
-  grad.addColorStop(1,'rgba(30,63,214,0)');
+  grad.addColorStop(0,'rgba(45,94,197,.12)');
+  grad.addColorStop(1,'rgba(45,94,197,0)');
   new Chart(ctx, {
     type: 'line',
     data: {
@@ -763,10 +764,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
       datasets:[{
         label: 'Leads',
         data: [19,73,46,70],
-        borderColor: '#1e3fd6',
+        borderColor: '#2d5ec5',
         backgroundColor: grad,
         borderWidth: 2.5,
-        pointBackgroundColor: '#1e3fd6',
+        pointBackgroundColor: '#2d5ec5',
         pointRadius: 5,
         pointHoverRadius: 7,
         fill: true,
@@ -793,7 +794,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
       labels: ['Mar','Abr','Mai','Jun'],
       datasets:[
         { label:'Investimento (R$)', data:[1528.47,2122.36,2136.86,1776.05],
-          backgroundColor:'rgba(30,63,214,.15)', borderColor:'rgba(30,63,214,.5)', borderWidth:1, borderRadius:6, yAxisID:'y' },
+          backgroundColor:'rgba(45,94,197,.15)', borderColor:'rgba(30,63,214,.5)', borderWidth:1, borderRadius:6, yAxisID:'y' },
         { label:'Conversas', data:[897,99,104,91], type:'line',
           borderColor:'#16a87a', backgroundColor:'transparent', borderWidth:2.5,
           pointBackgroundColor:'#16a87a', pointRadius:5, tension:.3, yAxisID:'y1' }
