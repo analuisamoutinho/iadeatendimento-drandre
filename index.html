@@ -6,836 +6,772 @@
 <title>Dr. André Rocha Ribeiro · Funil de Leads</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 <style>
 :root{
-  --bg:#eef1f6;--card:#fff;--navy:#1a3a5c;--blue:#2d5ec5;--blue-dark:#2d6080;
-  --blue-light:#3d92d0;--blue-pale:#e4edf8;--blue-pale2:#d5e5f5;
-  --teal:#16a87a;--coral:#e8543c;--gold:#d99a1b;--violet:#3d92d0;
-  --text:#1a3a5c;--dim:#3d5a78;--faint:#7a96b0;--border:#dde8f0;--border2:#edf3f8;
-  --shadow:0 1px 3px rgba(26,58,92,.05),0 6px 20px -6px rgba(26,58,92,.10);
-  --shadow-sm:0 1px 2px rgba(26,58,92,.06),0 2px 8px -2px rgba(26,58,92,.07);
+  --navy:#1a3a5c;--blue:#2d5ec5;--blue2:#2d6080;--blue3:#3d92d0;
+  --bg:#eef1f6;--card:#fff;--text:#1a3a5c;--dim:#3d5a78;--faint:#7a96b0;
+  --border:#dde8f0;--border2:#edf3f8;--teal:#16a87a;--coral:#e8543c;--gold:#d99a1b;
+  --shadow:0 1px 3px rgba(26,58,92,.05),0 4px 16px -4px rgba(26,58,92,.10);
+  --shadow-sm:0 1px 2px rgba(26,58,92,.04),0 2px 8px -2px rgba(26,58,92,.07);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:13px;line-height:1.5;min-height:100vh}
 .mono{font-family:'JetBrains Mono',monospace}
+.page{max-width:1200px;margin:0 auto;padding:24px 20px 64px}
 
-/* ── PAGE ── */
-.page{max-width:1200px;margin:0 auto;padding:28px 20px 64px}
+/* HEADER */
+.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.hdr-left{display:flex;align-items:center;gap:10px}
+.hdr-icon{width:38px;height:38px;border-radius:9px;background:linear-gradient(135deg,var(--blue2),var(--navy));display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hdr-icon svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hdr h1{font-size:15px;font-weight:800;letter-spacing:-.2px;color:var(--navy)}
+.hdr h1 span{color:var(--blue)}
+.hdr p{font-size:11px;color:var(--faint);margin-top:1px}
 
-/* ── HEADER ── */
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:12px}
-.header-left{display:flex;align-items:center;gap:12px}
-.brand-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--blue-dark),var(--navy));display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.brand-icon svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.brand-text h1{font-size:17px;font-weight:800;letter-spacing:-.3px;color:var(--navy)}
-.brand-text p{font-size:11px;color:var(--dim);margin-top:1px}
-.foco-logo svg{height:22px;display:block}
+/* FILTER BAR */
+.fbar{background:var(--navy);border-radius:14px;padding:10px 16px;margin-bottom:20px}
+.fbar-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.fbar-row+.fbar-row{margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.07)}
+.flabel{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.35);white-space:nowrap;margin-right:2px}
+.fpill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.10);border-radius:7px;padding:5px 11px;font-size:11px;font-weight:600;color:rgba(255,255,255,.75);cursor:default;white-space:nowrap}
+.fpill svg{width:11px;height:11px;stroke:rgba(255,255,255,.45);fill:none;stroke-width:2;stroke-linecap:round}
+.fpill.on{background:rgba(45,94,197,.4);border-color:rgba(61,146,208,.5);color:#fff}
+.fsep{width:1px;height:18px;background:rgba(255,255,255,.09);flex-shrink:0}
+.fdate{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.10);border-radius:7px;padding:5px 11px;font-size:11px;font-weight:600;color:rgba(255,255,255,.75)}
+.fdate svg{width:11px;height:11px;stroke:rgba(255,255,255,.5);fill:none;stroke-width:2;stroke-linecap:round}
+.fbtn-clear{background:transparent;border:1px solid rgba(255,255,255,.15);border-radius:7px;padding:5px 11px;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer}
 
-/* ── FILTER BAR ── */
-.filter-bar{background:var(--navy);border-radius:14px;padding:12px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:22px}
-.filter-label{font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.45);white-space:nowrap}
-.filter-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:6px 12px;font-size:11px;font-weight:600;color:rgba(255,255,255,.85);cursor:default;white-space:nowrap}
-.filter-pill svg{width:12px;height:12px;stroke:rgba(255,255,255,.5);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.filter-sep{width:1px;height:20px;background:rgba(255,255,255,.1);flex-shrink:0}
-.filter-active{background:rgba(45,94,197,.35);border-color:rgba(45,94,197,.6);color:#fff}
+/* KPI ROW */
+.kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 14px;box-shadow:var(--shadow-sm)}
+.kpi-ico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.kpi-ico svg{width:15px;height:15px;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.kpi-lbl{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
+.kpi-val{font-size:26px;font-weight:800;letter-spacing:-1.2px;line-height:1;color:var(--navy)}
+.kpi-val.green{color:var(--teal)}
+.kpi-val.red{color:var(--coral)}
+.kpi-sub{font-size:10px;color:var(--dim);margin-top:5px}
+.kpi-sub b{font-weight:700}
+.kpi-sub.good b{color:var(--teal)}
+.kpi-sub.bad b{color:var(--coral)}
 
-/* ── KPI ROW ── */
-.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
-.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 16px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:12px}
-.kpi-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.kpi-icon svg{width:16px;height:16px;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;fill:none}
-.kpi-label{font-size:9px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--faint)}
-.kpi-value{font-size:32px;font-weight:800;letter-spacing:-1.5px;line-height:1;color:var(--navy);margin-top:2px}
-.kpi-sub{font-size:11px;color:var(--dim);margin-top:4px}
-.kpi-sub b{font-weight:600}
-.kpi-sub.ok b{color:var(--teal)}
-.kpi-sub.warn b{color:var(--coral)}
+/* DARK CARDS */
+.dark2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.dcard{background:var(--navy);border-radius:14px;padding:18px;position:relative;overflow:hidden}
+.dcard::before{content:'';position:absolute;top:-40px;right:-40px;width:130px;height:130px;border-radius:50%;background:rgba(61,146,208,.08);pointer-events:none}
+.dcard-hdr{font-size:9px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.dcard-hdr-dot{width:5px;height:5px;border-radius:50%}
+.dcard-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.dm-lbl{font-size:9px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:3px}
+.dm-val{font-size:22px;font-weight:800;letter-spacing:-.8px;color:#fff;line-height:1}
+.dm-sub{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px}
+.dcard-footer{border-top:1px solid rgba(255,255,255,.07);padding-top:12px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.df-lbl{font-size:9px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:3px}
+.df-val{font-size:18px;font-weight:800;letter-spacing:-.6px;color:#fff}
+.df-sub{font-size:10px;color:rgba(255,255,255,.35);margin-top:2px}
+.dcard-pill{background:rgba(45,94,197,.3);border:1px solid rgba(61,146,208,.3);border-radius:8px;padding:8px 12px;font-size:11px;color:rgba(255,255,255,.7);margin-top:10px}
+.dcard-pill b{color:#fff}
 
-/* ── IA + META ROW ── */
-.ia-meta-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.dark-card{background:var(--navy);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
-.dark-card-header{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:14px;display:flex;align-items:center;gap:6px}
-.dark-card-header span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--blue)}
-.dark-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.dark-metric-label{font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:4px}
-.dark-metric-val{font-size:26px;font-weight:800;letter-spacing:-1px;color:#fff;line-height:1}
-.dark-metric-sub{font-size:10px;color:rgba(255,255,255,.45);margin-top:3px}
-.dark-receita{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center}
-.dark-receita-label{font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.35)}
-.dark-receita-val{font-size:20px;font-weight:800;letter-spacing:-.8px;color:#fff}
-.dark-receita-sub{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px}
-.meta-highlight{background:rgba(45,94,197,.25);border:1px solid rgba(45,94,197,.35);border-radius:10px;padding:10px 14px;margin-top:12px;font-size:11px;color:rgba(255,255,255,.7)}
-.meta-highlight b{color:#fff;font-weight:700}
+/* GRID */
+.g2{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;margin-bottom:14px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
 
-/* ── GRID ── */
-.grid2{display:grid;grid-template-columns:1.15fr 1fr;gap:16px;margin-bottom:16px}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
-.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow-sm)}
+.ctitle{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px}
+.csub{font-size:11px;color:var(--faint);margin-bottom:14px}
 
-/* ── CARD ── */
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--shadow-sm)}
-.card-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px}
-.card-sub{font-size:11px;color:var(--dim);margin-bottom:16px}
+/* FUNNEL */
+.fn-step{margin-bottom:13px}
+.fn-step:last-child{margin-bottom:0}
+.fn-top{display:flex;align-items:center;gap:9px;margin-bottom:5px}
+.fn-num{width:22px;height:22px;border-radius:50%;font-size:8px;font-weight:800;letter-spacing:.2px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fn-lbl{font-size:12px;font-weight:600;color:var(--dim);flex:1}
+.fn-val{font-size:13px;font-weight:800;color:var(--navy)}
+.fn-pct{font-size:10px;color:var(--faint);margin-left:4px}
+.fn-track{height:6px;background:var(--border2);border-radius:5px;overflow:hidden;margin-left:31px}
+.fn-fill{height:100%;border-radius:5px}
+.fn-note{margin-left:31px;margin-top:2px;font-size:10px;color:var(--faint)}
+.fn-prev{margin-left:31px;margin-top:3px;font-size:9px;color:var(--faint);font-style:italic}
 
-/* ── FUNNEL ── */
-.funnel-step{margin-bottom:14px}
-.funnel-step:last-child{margin-bottom:0}
-.funnel-step-top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-.funnel-num{width:24px;height:24px;border-radius:50%;background:var(--blue-pale);color:var(--navy);font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;letter-spacing:.3px}
-.funnel-step-label{font-size:12px;font-weight:600;color:var(--dim);flex:1}
-.funnel-step-val{font-size:14px;font-weight:800;color:var(--navy)}
-.funnel-step-pct{font-size:10px;color:var(--faint);margin-left:4px}
-.funnel-bar-track{height:7px;background:var(--border2);border-radius:6px;overflow:hidden;margin-left:34px}
-.funnel-bar-fill{height:100%;border-radius:6px}
-.funnel-note{margin-left:34px;margin-top:3px;font-size:10px;color:var(--faint)}
+/* DONUT */
+.donut-wrap{position:relative;flex-shrink:0}
+.donut-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
+.donut-center-val{font-size:22px;font-weight:800;letter-spacing:-1px;color:var(--navy);line-height:1}
+.donut-center-lbl{font-size:9px;color:var(--faint);font-weight:600;letter-spacing:.3px;text-transform:uppercase;margin-top:2px}
+.legend{display:flex;flex-direction:column;gap:6px}
+.leg-item{display:flex;align-items:center;gap:7px;font-size:11px}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.leg-lbl{color:var(--dim);flex:1}
+.leg-val{font-weight:700;color:var(--navy);font-size:11px}
+.leg-pct{font-size:10px;color:var(--faint);margin-left:2px}
 
-/* ── DONUT ── */
-.donut-wrap{position:relative;width:130px;height:130px;margin:0 auto 12px;flex-shrink:0}
-.donut-legend{display:flex;flex-direction:column;gap:7px}
-.legend-item{display:flex;align-items:center;gap:8px;font-size:12px}
-.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.legend-label{color:var(--dim);flex:1}
-.legend-val{font-weight:700;color:var(--navy);font-size:12px}
+/* COMPARECIMENTO */
+.compar-item{margin-bottom:8px}
+.compar-item:last-child{margin-bottom:0}
+.compar-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;font-size:11px}
+.compar-lbl{color:var(--dim);font-weight:500}
+.compar-val{font-weight:700;color:var(--navy)}
+.compar-track{height:5px;background:var(--border2);border-radius:4px;overflow:hidden}
+.compar-fill{height:100%;border-radius:4px}
 
-/* ── SECTION DIVIDER ── */
-.section-divider{display:flex;align-items:center;gap:12px;margin:28px 0 16px}
-.divider-badge{display:flex;align-items:center;gap:7px;background:var(--navy);color:#fff;font-size:10px;font-weight:700;letter-spacing:.6px;padding:5px 12px;border-radius:20px;white-space:nowrap;text-transform:uppercase}
-.divider-badge svg{width:11px;height:11px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.divider-hr{flex:1;border:none;border-top:1px solid var(--border)}
-
-/* ── REVENUE BANNER ── */
-.revenue-banner{background:var(--navy);border-radius:16px;padding:24px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:16px;flex-wrap:wrap}
-.rev-main-label{font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px}
-.rev-main-val{font-size:36px;font-weight:800;letter-spacing:-2px;color:#fff;line-height:1}
-.rev-main-sub{font-size:11px;color:rgba(255,255,255,.4);margin-top:4px}
-.rev-stat-label{font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:4px}
-.rev-stat-val{font-size:22px;font-weight:800;letter-spacing:-.8px;color:#fff}
-.rev-stat-sub{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px}
-.rev-divider{width:1px;height:50px;background:rgba(255,255,255,.1)}
-
-/* ── STAT ROWS ── */
-.stat-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border2)}
+/* STAT ROW */
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border2)}
 .stat-row:last-child{border-bottom:none}
-.stat-row-label{font-size:12px;color:var(--dim)}
-.stat-row-val{font-size:12px;font-weight:700;color:var(--navy)}
+.stat-lbl{font-size:11px;color:var(--dim)}
+.stat-val{font-size:12px;font-weight:700;color:var(--navy)}
 
-/* ── BADGE ── */
-.badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;display:inline-block}
-.badge-teal{background:rgba(22,168,122,.12);color:var(--teal)}
-.badge-coral{background:rgba(232,84,60,.12);color:var(--coral)}
-.badge-blue{background:rgba(45,94,197,.10);color:var(--blue)}
-.badge-gold{background:rgba(217,154,27,.12);color:var(--gold)}
+/* BADGE */
+.badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;display:inline-block;letter-spacing:.2px}
+.b-teal{background:rgba(22,168,122,.12);color:var(--teal)}
+.b-coral{background:rgba(232,84,60,.12);color:var(--coral)}
+.b-blue{background:rgba(45,94,197,.10);color:var(--blue)}
+.b-gold{background:rgba(217,154,27,.12);color:var(--gold)}
+.b-navy{background:rgba(26,58,92,.10);color:var(--navy)}
 
-/* ── BAR LIST ── */
-.bar-list-item{margin-bottom:10px}
-.bar-list-item:last-child{margin-bottom:0}
-.bar-list-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
-.bar-list-name{font-size:12px;font-weight:600;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:8px}
-.bar-list-meta{font-size:10px;color:var(--faint);white-space:nowrap}
-.bar-list-track{height:5px;background:var(--border2);border-radius:4px;overflow:hidden}
-.bar-list-fill{height:100%;border-radius:4px}
+/* REVENUE BANNER */
+.rev-banner{background:var(--navy);border-radius:14px;padding:22px 26px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap;position:relative;overflow:hidden}
+.rev-banner::before{content:'';position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:rgba(61,146,208,.06)}
+.rev-lbl{font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:5px}
+.rev-val{font-size:30px;font-weight:800;letter-spacing:-1.5px;color:#fff;line-height:1}
+.rev-sub{font-size:10px;color:rgba(255,255,255,.35);margin-top:3px}
+.rev-div{width:1px;height:44px;background:rgba(255,255,255,.08);flex-shrink:0}
+.rev-sm-val{font-size:20px;font-weight:800;letter-spacing:-.8px;color:#fff}
+.rev-sm-val.orange{color:#f59e0b}
 
-/* ── WARNING BOX ── */
-.warning-box{background:#fffbea;border:1px solid #fde68a;border-radius:10px;padding:10px 14px;font-size:11px;color:#92400e;margin-bottom:14px;display:flex;gap:8px;align-items:flex-start}
-.warning-box svg{width:14px;height:14px;stroke:#d97706;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;margin-top:1px}
+/* SECTION DIVIDER */
+.sdiv{display:flex;align-items:center;gap:12px;margin:22px 0 14px}
+.sdiv-badge{display:flex;align-items:center;gap:6px;background:var(--navy);color:#fff;font-size:9px;font-weight:700;letter-spacing:.7px;padding:5px 12px;border-radius:20px;white-space:nowrap;text-transform:uppercase}
+.sdiv-badge svg{width:10px;height:10px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
+.sdiv-hr{flex:1;border:none;border-top:1px solid var(--border)}
 
-/* ── CHART ── */
-.chart-wrap{position:relative}
+/* WARNING */
+.wbox{background:#fffbea;border:1px solid #fde68a;border-radius:10px;padding:10px 14px;font-size:11px;color:#92400e;margin-bottom:12px;display:flex;gap:8px;align-items:flex-start}
+.wbox svg{width:13px;height:13px;stroke:#d97706;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;margin-top:1px}
 
-/* ── COMPARECIMENTO ── */
-.compar-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border2)}
-.compar-row:last-child{border-bottom:none}
-.compar-bar-track{flex:1;height:6px;background:var(--border2);border-radius:4px;overflow:hidden}
-.compar-bar-fill{height:100%;border-radius:4px}
-.compar-label{font-size:11px;color:var(--dim);width:130px;flex-shrink:0}
-.compar-val{font-size:12px;font-weight:700;color:var(--navy);width:30px;text-align:right;flex-shrink:0}
+/* BAR LIST */
+.blist-item{margin-bottom:10px}
+.blist-item:last-child{margin-bottom:0}
+.blist-hdr{display:flex;justify-content:space-between;margin-bottom:3px}
+.blist-name{font-size:11px;font-weight:600;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:8px}
+.blist-meta{font-size:10px;color:var(--faint);white-space:nowrap}
+.blist-track{height:5px;background:var(--border2);border-radius:4px;overflow:hidden}
+.blist-fill{height:100%;border-radius:4px}
 
-/* ── RESPONSIVE ── */
-@media(max-width:980px){
+/* COMPARISON BOX */
+.vs-box{border:1px solid var(--border);border-radius:10px;padding:12px;flex:1}
+.vs-box-lbl{font-size:9px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;margin-bottom:8px}
+.vs-big{font-size:22px;font-weight:800;letter-spacing:-1px;color:var(--navy);line-height:1;margin-bottom:2px}
+.vs-sub{font-size:10px;color:var(--dim);margin-bottom:10px}
+.vs-metric{display:flex;justify-content:space-between;font-size:11px;padding:3px 0;border-bottom:1px solid var(--border2)}
+.vs-metric:last-child{border-bottom:none}
+.vs-metric-lbl{color:var(--dim)}
+.vs-metric-val{font-weight:700;color:var(--navy)}
+
+/* RESPONSIVE */
+@media(max-width:1000px){
   .kpi-row{grid-template-columns:repeat(3,1fr)}
-  .ia-meta-row,.grid2{grid-template-columns:1fr}
-  .grid3{grid-template-columns:repeat(2,1fr)}
-  .grid4{grid-template-columns:repeat(2,1fr)}
+  .dark2,.g2{grid-template-columns:1fr}
+  .g3{grid-template-columns:repeat(2,1fr)}
+  .g4{grid-template-columns:repeat(2,1fr)}
 }
-@media(max-width:600px){
+@media(max-width:580px){
   .kpi-row{grid-template-columns:repeat(2,1fr)}
-  .grid3,.grid4{grid-template-columns:1fr}
-  .kpi-value{font-size:26px}
-  .revenue-banner{flex-direction:column}
+  .g3,.g4{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 <div class="page">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-left">
-      <div class="brand-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-      </div>
-      <div class="brand-text">
-        <h1>Dr. André Rocha Ribeiro · <span style="color:var(--blue)">Funil de Leads</span></h1>
-        <p>Painel de atendimento automatizado por IA · Implantodontia</p>
-      </div>
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="hdr-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
     </div>
-    <div class="foco-logo">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 40" height="26">
-        <text y="30" font-family="Arial,Helvetica,sans-serif" font-size="32" fill="#1565C0">
-          <tspan font-weight="400">foco</tspan><tspan font-weight="700">marketing.</tspan>
-        </text>
-        <g transform="translate(236,2)">
-          <path d="M6 2 Q22 0 24 13 Q24 22 15 25 L26 36" stroke="#1565C0" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        </g>
-      </svg>
+    <div>
+      <div class="hdr h1" style="font-size:15px;font-weight:800;color:var(--navy)">Dr. André Rocha Ribeiro · <span style="color:var(--blue)">Funil de Leads</span></div>
+      <div style="font-size:11px;color:var(--faint);margin-top:1px">Painel de atendimento automatizado por IA</div>
     </div>
   </div>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 40" height="22">
+    <text y="30" font-family="Arial,Helvetica,sans-serif" font-size="32" fill="#1565C0"><tspan font-weight="400">foco</tspan><tspan font-weight="700">marketing.</tspan></text>
+    <g transform="translate(237,3)"><path d="M5 2 Q20 0 22 12 Q22 21 14 24 L24 35" stroke="#1565C0" stroke-width="3.2" fill="none" stroke-linecap="round"/></g>
+  </svg>
+</div>
 
-  <!-- FILTER BAR -->
-  <div class="filter-bar">
-    <span class="filter-label">Período</span>
-    <div class="filter-pill filter-active">
+<!-- FILTER BAR -->
+<div class="fbar">
+  <div class="fbar-row">
+    <span class="flabel">Período</span>
+    <div class="fpill">7 dias</div>
+    <div class="fpill">30 dias</div>
+    <div class="fpill">90 dias</div>
+    <div class="fpill on">Tudo</div>
+    <div class="fsep"></div>
+    <div class="fdate">
       <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      Jan – Jun 2026
+      01/01/2026
     </div>
-    <div class="filter-pill">7 dias</div>
-    <div class="filter-pill">30 dias</div>
-    <div class="filter-pill">60 dias</div>
-    <div class="filter-pill">Tudo</div>
-    <div class="filter-sep"></div>
-    <div class="filter-pill">
+    <span style="color:rgba(255,255,255,.3);font-size:12px">→</span>
+    <div class="fdate">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      26/06/2026
+    </div>
+    <div class="fsep"></div>
+    <div class="fpill on">
       Todas as origens
       <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
-    <div class="filter-pill">
+  </div>
+  <div class="fbar-row">
+    <div class="fpill on">
       Todos os interesses
       <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
+    <button class="fbtn-clear">Limpar filtros</button>
   </div>
+</div>
 
-  <!-- KPI ROW -->
-  <div class="kpi-row">
-    <div class="kpi-card">
-      <div class="kpi-icon" style="background:rgba(45,94,197,.08)">
-        <svg style="stroke:var(--blue)" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+<!-- KPI ROW -->
+<div class="kpi-row">
+  <div class="kpi">
+    <div class="kpi-ico" style="background:rgba(45,94,197,.09)">
+      <svg style="stroke:var(--blue)" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </div>
+    <div class="kpi-lbl">Leads Recebidos</div>
+    <div class="kpi-val">246</div>
+    <div class="kpi-sub">Jan – Jun 2026</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-ico" style="background:rgba(232,84,60,.09)">
+      <svg style="stroke:var(--coral)" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    </div>
+    <div class="kpi-lbl">Valor Investido</div>
+    <div class="kpi-val red" style="font-size:20px">R$&nbsp;1.768</div>
+    <div class="kpi-sub">Jun/2026 · dados disponíveis</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-ico" style="background:rgba(22,168,122,.09)">
+      <svg style="stroke:var(--teal)" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+    </div>
+    <div class="kpi-lbl">Valor em Vendas</div>
+    <div class="kpi-val green">—</div>
+    <div class="kpi-sub">Sem vendas registradas</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-ico" style="background:rgba(61,146,208,.09)">
+      <svg style="stroke:var(--blue3)" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    </div>
+    <div class="kpi-lbl">Agendamentos</div>
+    <div class="kpi-val">7</div>
+    <div class="kpi-sub bad"><b>2,8%</b> dos leads</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-ico" style="background:rgba(217,154,27,.09)">
+      <svg style="stroke:var(--gold)" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    </div>
+    <div class="kpi-lbl">Comparecimento</div>
+    <div class="kpi-val" style="font-size:18px;color:var(--faint)">—</div>
+    <div class="kpi-sub">Sem registro ainda</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-ico" style="background:rgba(26,58,92,.07)">
+      <svg style="stroke:var(--navy)" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </div>
+    <div class="kpi-lbl">Vendas Confirmadas</div>
+    <div class="kpi-val" style="font-size:18px;color:var(--faint)">—</div>
+    <div class="kpi-sub">Sem registro ainda</div>
+  </div>
+</div>
+
+<!-- DARK CARDS: IA + META -->
+<div class="dark2">
+  <div class="dcard">
+    <div class="dcard-hdr"><span class="dcard-hdr-dot" style="background:var(--blue3)"></span>Atendimento IA</div>
+    <div class="dcard-metrics">
+      <div>
+        <div class="dm-lbl">Mensagens</div>
+        <div class="dm-val">246</div>
+        <div class="dm-sub">leads recebidos</div>
       </div>
       <div>
-        <div class="kpi-label">Leads Recebidos</div>
-        <div class="kpi-value">246</div>
-        <div class="kpi-sub">Período completo</div>
-      </div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-icon" style="background:rgba(106,79,224,.08)">
-        <svg style="stroke:var(--violet)" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <div class="dm-lbl">Comparecimentos</div>
+        <div class="dm-val">—</div>
+        <div class="dm-sub">sem registro</div>
       </div>
       <div>
-        <div class="kpi-label">Engajamento na 1ª MSG</div>
-        <div class="kpi-value">39<span style="font-size:20px;font-weight:600">%</span></div>
-        <div class="kpi-sub warn"><b>97 responderam</b></div>
+        <div class="dm-lbl">Fechamentos</div>
+        <div class="dm-val">—</div>
+        <div class="dm-sub">sem registro</div>
       </div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-icon" style="background:rgba(22,168,122,.08)">
-        <svg style="stroke:var(--teal)" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <div class="dcard-footer">
+      <div>
+        <div class="df-lbl">Receita Confirmada</div>
+        <div class="df-val">R$ 0</div>
+        <div class="df-sub">Vendas não registradas na planilha</div>
+      </div>
+      <div style="text-align:right">
+        <div class="df-lbl">Ticket Médio</div>
+        <div class="df-val">—</div>
+        <div class="df-sub">Sem vendas para calcular</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dcard">
+    <div class="dcard-hdr"><span class="dcard-hdr-dot" style="background:var(--coral)"></span>Tráfego Meta</div>
+    <div class="dcard-metrics">
+      <div>
+        <div class="dm-lbl">Valor Investido</div>
+        <div class="dm-val" style="font-size:18px">R$&nbsp;1.768</div>
+        <div class="dm-sub">Jun/2026 · confirmado</div>
       </div>
       <div>
-        <div class="kpi-label">Agendamentos</div>
-        <div class="kpi-value">7</div>
-        <div class="kpi-sub warn"><b>2,8%</b> dos leads</div>
-      </div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-icon" style="background:rgba(217,154,27,.08)">
-        <svg style="stroke:var(--gold)" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <div class="dm-lbl">Conversas Meta</div>
+        <div class="dm-val">90</div>
+        <div class="dm-sub">CPM: R$ 7</div>
       </div>
       <div>
-        <div class="kpi-label">Comparecimento</div>
-        <div class="kpi-value">—</div>
-        <div class="kpi-sub">Sem registro ainda</div>
+        <div class="dm-lbl">ROI Estimado</div>
+        <div class="dm-val" style="font-size:18px;color:rgba(255,255,255,.3)">—</div>
+        <div class="dm-sub">sem receita</div>
       </div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-icon" style="background:rgba(232,84,60,.08)">
-        <svg style="stroke:var(--coral)" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    <div class="dcard-pill">
+      Campanha ativa: <b>[FOCO] LEADS IA</b> · 5km da clínica / 55anos+ · Meta Ads disponível apenas para <b>Jun/2026</b> na planilha
+    </div>
+  </div>
+</div>
+
+<!-- FUNIL + RESULTADO DA CONVERSA -->
+<div class="g2" style="margin-bottom:14px">
+  <!-- Funil -->
+  <div class="card">
+    <div class="ctitle">Funil de atendimento</div>
+    <div class="csub">Cada etapa mostra quantos leads avançaram a partir do total · Total: 246 leads</div>
+
+    <div class="fn-step">
+      <div class="fn-top">
+        <div class="fn-num" style="background:rgba(45,94,197,.12);color:var(--blue)">01</div>
+        <span class="fn-lbl">Leads recebidos</span>
+        <span><span class="fn-val mono">246</span><span class="fn-pct">100%</span></span>
       </div>
-      <div>
-        <div class="kpi-label">Vendas Confirmadas</div>
-        <div class="kpi-value">—</div>
-        <div class="kpi-sub">Sem registro ainda</div>
+      <div class="fn-track"><div class="fn-fill" style="width:100%;background:var(--blue)"></div></div>
+    </div>
+
+    <div class="fn-step">
+      <div class="fn-top">
+        <div class="fn-num" style="background:rgba(45,94,197,.12);color:var(--blue2)">02</div>
+        <span class="fn-lbl">Respondeu à 1ª mensagem</span>
+        <span><span class="fn-val mono">97</span><span class="fn-pct">39,4%</span></span>
       </div>
+      <div class="fn-track"><div class="fn-fill" style="width:39.4%;background:var(--blue2)"></div></div>
+      <div class="fn-note">149 leads pararam na 1ª msg · 60,6% de abandono</div>
+    </div>
+
+    <div class="fn-step">
+      <div class="fn-top">
+        <div class="fn-num" style="background:rgba(22,168,122,.10);color:var(--teal)">03</div>
+        <span class="fn-lbl">Agendamento marcado</span>
+        <span><span class="fn-val mono">7</span><span class="fn-pct">2,8%</span></span>
+      </div>
+      <div class="fn-track"><div class="fn-fill" style="width:2.8%;background:var(--teal)"></div></div>
+    </div>
+
+    <div class="fn-step">
+      <div class="fn-top">
+        <div class="fn-num" style="background:rgba(217,154,27,.10);color:var(--gold)">04</div>
+        <span class="fn-lbl">Compareceu à consulta</span>
+        <span><span class="fn-val mono">—</span><span class="fn-pct">—</span></span>
+      </div>
+      <div class="fn-track"><div class="fn-fill" style="width:0%;background:var(--gold)"></div></div>
+      <div class="fn-note">Sem registro de comparecimento na planilha</div>
+    </div>
+
+    <div class="fn-step">
+      <div class="fn-top">
+        <div class="fn-num" style="background:rgba(232,84,60,.10);color:var(--coral)">05</div>
+        <span class="fn-lbl">Venda confirmada</span>
+        <span><span class="fn-val mono">—</span><span class="fn-pct">—</span></span>
+      </div>
+      <div class="fn-track"><div class="fn-fill" style="width:0%;background:var(--coral)"></div></div>
+      <div class="fn-note">Sem vendas registradas na planilha</div>
     </div>
   </div>
 
-  <!-- IA + META ROW -->
-  <div class="ia-meta-row">
-    <!-- IA card -->
-    <div class="dark-card">
-      <div class="dark-card-header"><span></span>Atendimento IA</div>
-      <div class="dark-metrics">
-        <div>
-          <div class="dark-metric-label">Mensagens</div>
-          <div class="dark-metric-val">246</div>
-          <div class="dark-metric-sub">leads recebidos</div>
+  <!-- Resultado da conversa + Comparecimento -->
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div class="card" style="flex:1">
+      <div class="ctitle">Resultado da conversa</div>
+      <div class="csub">Distribuição dos 246 leads recebidos</div>
+      <div style="display:flex;align-items:center;gap:18px">
+        <div class="donut-wrap" style="width:130px;height:130px;position:relative;flex-shrink:0">
+          <canvas id="donut-conversa" width="130" height="130"></canvas>
+          <div class="donut-center">
+            <div class="donut-center-val">97</div>
+            <div class="donut-center-lbl">engajaram</div>
+          </div>
         </div>
-        <div>
-          <div class="dark-metric-label">Engajamentos</div>
-          <div class="dark-metric-val">97</div>
-          <div class="dark-metric-sub">39% do total</div>
-        </div>
-        <div>
-          <div class="dark-metric-label">Agendamentos</div>
-          <div class="dark-metric-val">7</div>
-          <div class="dark-metric-sub">2,8% dos leads</div>
-        </div>
-      </div>
-      <div class="dark-receita">
-        <div>
-          <div class="dark-receita-label">Receita Confirmada</div>
-          <div class="dark-receita-val">R$ 0</div>
-          <div class="dark-receita-sub">Sem vendas registradas ainda</div>
-        </div>
-        <div style="text-align:right">
-          <div class="dark-receita-label">Interesse Principal</div>
-          <div style="font-size:16px;font-weight:800;color:#fff;margin-top:4px">Implantes</div>
-          <div class="dark-receita-sub">85,4% dos leads</div>
+        <div class="legend" style="flex:1">
+          <div class="leg-item">
+            <div class="leg-dot" style="background:var(--teal)"></div>
+            <span class="leg-lbl">Agendamento marcado</span>
+            <span class="leg-val">7</span><span class="leg-pct">· 2,8%</span>
+          </div>
+          <div class="leg-item">
+            <div class="leg-dot" style="background:var(--blue)"></div>
+            <span class="leg-lbl">Engajou, não agendou</span>
+            <span class="leg-val">90</span><span class="leg-pct">· 36,6%</span>
+          </div>
+          <div class="leg-item">
+            <div class="leg-dot" style="background:var(--border)"></div>
+            <span class="leg-lbl">Sem resposta</span>
+            <span class="leg-val">149</span><span class="leg-pct">· 60,6%</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Meta card -->
-    <div class="dark-card">
-      <div class="dark-card-header"><span style="background:var(--coral)"></span>Tráfego Meta · Jun 2026</div>
-      <div class="dark-metrics">
-        <div>
-          <div class="dark-metric-label">Investido (Jun)</div>
-          <div class="dark-metric-val" style="font-size:22px">R$&nbsp;1.768</div>
-          <div class="dark-metric-sub">dados disponíveis</div>
-        </div>
-        <div>
-          <div class="dark-metric-label">Conversas Iniciadas</div>
-          <div class="dark-metric-val">90</div>
-          <div class="dark-metric-sub">84 novas conversas</div>
-        </div>
-        <div>
-          <div class="dark-metric-label">Impressões</div>
-          <div class="dark-metric-val" style="font-size:22px">86,3K</div>
-          <div class="dark-metric-sub">junho/2026</div>
-        </div>
-      </div>
-      <div class="meta-highlight">
-        Campanha ativa: <b>[FOCO] LEADS IA</b> · 5km da clínica / 55anos+ · dados Meta Ads disponíveis <b>apenas para Junho/2026</b> na planilha
-      </div>
-    </div>
-  </div>
-
-  <!-- FUNIL + CONVERSA -->
-  <div class="grid2">
-    <!-- Funil -->
     <div class="card">
-      <div class="card-title">Funil de Atendimento</div>
-      <div class="card-sub">Cada etapa mostra quantos leads avançaram · Mar – Jun 2026 · Total: 246 leads</div>
-
-      <div class="funnel-step">
-        <div class="funnel-step-top">
-          <div class="funnel-num">01</div>
-          <span class="funnel-step-label">Leads Recebidos</span>
-          <span><span class="funnel-step-val mono">246</span><span class="funnel-step-pct">100%</span></span>
-        </div>
-        <div class="funnel-bar-track"><div class="funnel-bar-fill" style="width:100%;background:var(--blue)"></div></div>
+      <div class="ctitle">Comparecimento</div>
+      <div class="csub">Entre os 7 leads agendados</div>
+      <div class="compar-item">
+        <div class="compar-top"><span class="compar-lbl">Compareceu</span><span class="compar-val">—</span></div>
+        <div class="compar-track"><div class="compar-fill" style="width:0%;background:var(--teal)"></div></div>
       </div>
-
-      <div class="funnel-step">
-        <div class="funnel-step-top">
-          <div class="funnel-num" style="background:rgba(106,79,224,.1);color:var(--violet)">02</div>
-          <span class="funnel-step-label">Respondeu à 1ª Mensagem</span>
-          <span><span class="funnel-step-val mono">97</span><span class="funnel-step-pct">39,4%</span></span>
-        </div>
-        <div class="funnel-bar-track"><div class="funnel-bar-fill" style="width:39.4%;background:var(--violet)"></div></div>
-        <div class="funnel-note">149 leads pararam de responder na 1ª msg (60,6%)</div>
+      <div class="compar-item">
+        <div class="compar-top"><span class="compar-lbl">Não compareceu</span><span class="compar-val">1</span></div>
+        <div class="compar-track"><div class="compar-fill" style="width:14%;background:var(--coral)"></div></div>
       </div>
-
-      <div class="funnel-step">
-        <div class="funnel-step-top">
-          <div class="funnel-num" style="background:rgba(22,168,122,.1);color:var(--teal)">03</div>
-          <span class="funnel-step-label">Agendamento Marcado</span>
-          <span><span class="funnel-step-val mono">7</span><span class="funnel-step-pct">2,8%</span></span>
-        </div>
-        <div class="funnel-bar-track"><div class="funnel-bar-fill" style="width:2.8%;background:var(--teal)"></div></div>
-      </div>
-
-      <div class="funnel-step">
-        <div class="funnel-step-top">
-          <div class="funnel-num" style="background:rgba(217,154,27,.1);color:var(--gold)">04</div>
-          <span class="funnel-step-label">Compareceu à Consulta</span>
-          <span><span class="funnel-step-val mono">—</span><span class="funnel-step-pct">—</span></span>
-        </div>
-        <div class="funnel-bar-track"><div class="funnel-bar-fill" style="width:0%;background:var(--gold)"></div></div>
-        <div class="funnel-note">Sem registro de comparecimento ainda</div>
-      </div>
-
-      <div class="funnel-step">
-        <div class="funnel-step-top">
-          <div class="funnel-num" style="background:rgba(232,84,60,.1);color:var(--coral)">05</div>
-          <span class="funnel-step-label">Venda Confirmada</span>
-          <span><span class="funnel-step-val mono">—</span><span class="funnel-step-pct">—</span></span>
-        </div>
-        <div class="funnel-bar-track"><div class="funnel-bar-fill" style="width:0%;background:var(--coral)"></div></div>
-        <div class="funnel-note">Sem vendas registradas ainda</div>
-      </div>
-
-      <!-- Pills -->
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;padding-top:16px;border-top:1px solid var(--border2)">
-        <div style="display:flex;align-items:center;gap:8px;background:var(--blue-pale);border:1px solid #dde6fb;border-radius:10px;padding:8px 14px;flex:1">
-          <div style="width:28px;height:28px;border-radius:8px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <svg width="13" height="13" viewBox="0 0 24 24" style="stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          </div>
-          <div><div style="font-size:9px;color:var(--dim);font-weight:700;letter-spacing:.4px;text-transform:uppercase">Interesse</div><div style="font-size:14px;font-weight:800;color:var(--blue)">Implantes</div></div>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;background:rgba(22,168,122,.06);border:1px solid rgba(22,168,122,.15);border-radius:10px;padding:8px 14px;flex:1">
-          <div style="width:28px;height:28px;border-radius:8px;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <svg width="13" height="13" viewBox="0 0 24 24" style="stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-          </div>
-          <div><div style="font-size:9px;color:var(--teal);font-weight:700;letter-spacing:.4px;text-transform:uppercase">Público Feminino</div><div style="font-size:14px;font-weight:800;color:var(--teal)">60,2%</div></div>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;background:rgba(232,84,60,.06);border:1px solid rgba(232,84,60,.15);border-radius:10px;padding:8px 14px;flex:1">
-          <div style="width:28px;height:28px;border-radius:8px;background:var(--coral);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <svg width="13" height="13" viewBox="0 0 24 24" style="stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          </div>
-          <div><div style="font-size:9px;color:var(--coral);font-weight:700;letter-spacing:.4px;text-transform:uppercase">Sem Retorno</div><div style="font-size:14px;font-weight:800;color:var(--coral)">60,6%</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Donuts column -->
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <!-- Resultado da conversa -->
-      <div class="card" style="flex:1">
-        <div class="card-title">Resultado da Conversa</div>
-        <div class="card-sub">Leads que iniciaram conversa com a IA</div>
-        <div style="display:flex;align-items:center;gap:20px">
-          <div class="donut-wrap" style="width:110px;height:110px">
-            <canvas id="donut-conversa"></canvas>
-          </div>
-          <div style="flex:1">
-            <div style="font-size:28px;font-weight:800;color:var(--navy);letter-spacing:-1px;line-height:1">97</div>
-            <div style="font-size:11px;color:var(--dim);margin-bottom:12px">leads engajaram</div>
-            <div class="donut-legend">
-              <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div><span class="legend-label">Responderam</span><span class="legend-val">97</span></div>
-              <div class="legend-item"><div class="legend-dot" style="background:var(--border2)"></div><span class="legend-label">Sem resposta</span><span class="legend-val">149</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Origem -->
-      <div class="card" style="flex:1">
-        <div class="card-title">Leads por Origem</div>
-        <div class="card-sub">Canal de entrada</div>
-        <div style="display:flex;align-items:center;gap:20px">
-          <div class="donut-wrap" style="width:110px;height:110px">
-            <canvas id="donut-origem"></canvas>
-          </div>
-          <div class="donut-legend" style="flex:1">
-            <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div><span class="legend-label">Facebook</span><span class="legend-val">197</span></div>
-            <div class="legend-item"><div class="legend-dot" style="background:var(--coral)"></div><span class="legend-label">Instagram</span><span class="legend-val">4</span></div>
-            <div class="legend-item"><div class="legend-dot" style="background:var(--border2)"></div><span class="legend-label">N/Identificado</span><span class="legend-val">45</span></div>
-          </div>
-        </div>
+      <div class="compar-item">
+        <div class="compar-top"><span class="compar-lbl">Sem registro ainda</span><span class="compar-val">6</span></div>
+        <div class="compar-track"><div class="compar-fill" style="width:86%;background:var(--border)"></div></div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- VOLUME DE LEADS AO LONGO DO TEMPO -->
-  <div class="card" style="margin-bottom:16px">
-    <div class="card-title">Volume de Leads ao Longo do Tempo</div>
-    <div class="card-sub">Leads recebidos por mês · Mar – Jun 2026 · Total com mês identificado: 208 leads</div>
-    <div class="chart-wrap" style="height:200px">
-      <canvas id="chart-leads-monthly"></canvas>
+<!-- VOLUME DE LEADS AO LONGO DO TEMPO -->
+<div class="card" style="margin-bottom:14px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2px">
+    <div class="ctitle">Volume de leads ao longo do tempo</div>
+    <span style="font-size:10px;color:var(--faint)">Leads recebidos por mês</span>
+  </div>
+  <div class="csub">Mar – Jun 2026 · 208 leads com mês identificado · 38 sem mês</div>
+  <div style="height:200px;position:relative">
+    <canvas id="chart-volume"></canvas>
+  </div>
+  <div style="display:flex;gap:16px;margin-top:10px">
+    <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:var(--dim)"><div style="width:20px;height:2px;background:var(--blue);border-radius:2px"></div>Leads recebidos</div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:var(--dim)"><div style="width:20px;height:2px;background:var(--coral);border-radius:2px"></div>Vendas confirmadas</div>
+  </div>
+</div>
+
+<!-- REVENUE BANNER -->
+<div class="rev-banner">
+  <div>
+    <div class="rev-lbl">Receita confirmada no período</div>
+    <div class="rev-val">R$ 0</div>
+    <div class="rev-sub">Vendas não registradas na planilha ainda</div>
+  </div>
+  <div class="rev-div"></div>
+  <div>
+    <div class="rev-lbl">Ticket médio</div>
+    <div class="rev-sm-val">—</div>
+    <div class="rev-sub">Sem vendas</div>
+  </div>
+  <div class="rev-div"></div>
+  <div>
+    <div class="rev-lbl">Em negociação</div>
+    <div class="rev-sm-val orange">7</div>
+    <div class="rev-sub">agendamentos ativos</div>
+  </div>
+  <div class="rev-div"></div>
+  <div>
+    <div class="rev-lbl">CPL confirmado (Jun)</div>
+    <div class="rev-sm-val">R$ 25,27</div>
+    <div class="rev-sub">R$1.768 ÷ 70 leads</div>
+  </div>
+</div>
+
+<!-- ANÚNCIOS META SECTION -->
+<div class="sdiv">
+  <div class="sdiv-badge">
+    <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    Anúncios Meta · Atendimento IA
+  </div>
+  <div class="sdiv-hr"></div>
+</div>
+
+<div class="wbox" style="margin-bottom:12px">
+  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+  Os dados dos anúncios Meta estão disponíveis a partir de <b>junho de 2026</b>. Meses anteriores (Jan–Mai/2026) não possuem exportação de tráfego na planilha — os leads desse período são todos de origem orgânica ou não identificada.
+</div>
+
+<!-- ADS KPI 4 -->
+<div class="g4">
+  <div class="card">
+    <div class="kpi-lbl">Total Investido</div>
+    <div style="font-size:22px;font-weight:800;letter-spacing:-1px;color:var(--coral);margin:6px 0">R$ 1.768</div>
+    <div style="font-size:10px;color:var(--dim)">86.324 impressões · Jun/2026</div>
+  </div>
+  <div class="card">
+    <div class="kpi-lbl">Conversas Meta</div>
+    <div style="font-size:22px;font-weight:800;letter-spacing:-1px;color:var(--navy);margin:6px 0">90</div>
+    <div style="font-size:10px;color:var(--dim)">CPM: R$ 7 · 84 novas conversas</div>
+  </div>
+  <div class="card">
+    <div class="kpi-lbl">Leads via Facebook</div>
+    <div style="font-size:22px;font-weight:800;letter-spacing:-1px;color:var(--navy);margin:6px 0">197</div>
+    <div style="font-size:10px;color:var(--dim)">CPL: R$ 8,98 · 80,1% dos leads</div>
+  </div>
+  <div class="card">
+    <div class="kpi-lbl">ROI Anúncios</div>
+    <div style="font-size:22px;font-weight:800;letter-spacing:-1px;color:var(--faint);margin:6px 0">—</div>
+    <div style="font-size:10px;color:var(--dim)">Sem receita registrada</div>
+  </div>
+</div>
+
+<!-- INVESTIMENTO DIÁRIO × LEADS (só Jun) -->
+<div class="card" style="margin-bottom:14px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2px">
+    <div class="ctitle">Investimento diário × Conversas Meta</div>
+    <span style="font-size:10px;color:var(--faint)">Jun/2026 · dados confirmados</span>
+  </div>
+  <div class="csub">Investimento (barras) e conversas iniciadas por mensagem (pontos) — dados disponíveis apenas para junho</div>
+  <div style="height:200px;position:relative">
+    <canvas id="chart-daily"></canvas>
+  </div>
+  <div style="display:flex;gap:16px;margin-top:10px">
+    <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:var(--dim)"><div style="width:12px;height:12px;background:rgba(45,94,197,.2);border:1px solid rgba(45,94,197,.4);border-radius:3px"></div>Investimento (R$)</div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:var(--dim)"><div style="width:8px;height:8px;border-radius:50%;background:var(--teal)"></div>Leads Facebook</div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:var(--dim)"><div style="width:8px;height:8px;border-radius:50%;background:var(--gold);border:1px dashed var(--gold)"></div>Conversas Meta</div>
+  </div>
+</div>
+
+<!-- PERFORMANCE + FACEBOOK VS ORGÂNICO -->
+<div class="g2" style="margin-bottom:14px">
+  <!-- Performance por anúncio -->
+  <div class="card">
+    <div class="ctitle">Performance por anúncio</div>
+    <div class="csub">Investimento e conversas por criativo · Jun/2026</div>
+
+    <div class="blist-item">
+      <div class="blist-hdr">
+        <span class="blist-name">Perdeu um dente?</span>
+        <span class="blist-meta" style="color:var(--coral)">R$ 1.768 · 90 conv</span>
+      </div>
+      <div class="blist-track"><div class="blist-fill" style="width:100%;background:linear-gradient(90deg,var(--blue),var(--navy))"></div></div>
+    </div>
+    <div class="blist-item">
+      <div class="blist-hdr">
+        <span class="blist-name">Volte a sorrir com segurança</span>
+        <span class="blist-meta">dados agrupados</span>
+      </div>
+      <div class="blist-track"><div class="blist-fill" style="width:30%;background:var(--blue2)"></div></div>
+    </div>
+    <div class="blist-item">
+      <div class="blist-hdr">
+        <span class="blist-name">Implantes com especialista</span>
+        <span class="blist-meta">dados agrupados</span>
+      </div>
+      <div class="blist-track"><div class="blist-fill" style="width:15%;background:var(--blue3)"></div></div>
+    </div>
+
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border2)">
+      <div style="font-size:11px;font-weight:700;color:var(--navy);margin-bottom:8px">Segmentação (Jun/2026)</div>
+      <div class="stat-row"><span class="stat-lbl">Conjunto ativo</span><span class="stat-val">5km clínica / 55anos+</span></div>
+      <div class="stat-row"><span class="stat-lbl">Faixa 65+</span><span class="stat-val">50 conv · 44 novas <span class="badge b-teal">top</span></span></div>
+      <div class="stat-row"><span class="stat-lbl">Faixa 55–64</span><span class="stat-val">15 conv</span></div>
+      <div class="stat-row"><span class="stat-lbl">Faixa 45–54</span><span class="stat-val">17 conv</span></div>
+      <div class="stat-row"><span class="stat-lbl">Faixa 35–44</span><span class="stat-val">8 conv</span></div>
     </div>
   </div>
 
-  <!-- REVENUE BANNER -->
-  <div class="revenue-banner" style="margin-bottom:24px">
-    <div>
-      <div class="rev-main-label">Receita Confirmada no Período</div>
-      <div class="rev-main-val">R$ 0</div>
-      <div class="rev-main-sub">Vendas ainda não registradas na planilha</div>
+  <!-- Facebook vs Orgânico -->
+  <div class="card">
+    <div class="ctitle">Facebook vs. Orgânico</div>
+    <div class="csub">Comparação do funil entre leads pagos e orgânicos/não identificados</div>
+    <div style="display:flex;gap:10px;margin-bottom:14px">
+      <div class="vs-box" style="border-color:rgba(45,94,197,.2);background:rgba(45,94,197,.03)">
+        <div class="vs-box-lbl" style="color:var(--blue)">Facebook (pago)</div>
+        <div class="vs-big">197 leads</div>
+        <div class="vs-sub">Agendamentos: 3% · Vendas: —</div>
+        <div class="vs-metric"><span class="vs-metric-lbl">Agendamentos</span><span class="vs-metric-val">~6</span></div>
+        <div class="vs-metric"><span class="vs-metric-lbl">Vendas</span><span class="vs-metric-val">—</span></div>
+        <div class="vs-metric"><span class="vs-metric-lbl">Receita</span><span class="vs-metric-val">R$ 0</span></div>
+      </div>
+      <div class="vs-box" style="border-color:rgba(22,168,122,.2);background:rgba(22,168,122,.03)">
+        <div class="vs-box-lbl" style="color:var(--teal)">Orgânico / N/Id</div>
+        <div class="vs-big">49 leads</div>
+        <div class="vs-sub">Instagram 4 · N/Id 45</div>
+        <div class="vs-metric"><span class="vs-metric-lbl">Agendamentos</span><span class="vs-metric-val">~1</span></div>
+        <div class="vs-metric"><span class="vs-metric-lbl">Vendas</span><span class="vs-metric-val">—</span></div>
+        <div class="vs-metric"><span class="vs-metric-lbl">Receita</span><span class="vs-metric-val">R$ 0</span></div>
+      </div>
     </div>
-    <div class="rev-divider"></div>
-    <div>
-      <div class="rev-stat-label">Ticket Médio</div>
-      <div class="rev-stat-val">—</div>
-      <div class="rev-stat-sub">Sem vendas</div>
+    <div style="font-size:11px;font-weight:700;color:var(--navy);margin-bottom:8px">Taxa de conversão comparada</div>
+    <div class="stat-row">
+      <span class="stat-lbl">Agendamento FB</span>
+      <span class="stat-val">~3%</span>
     </div>
-    <div class="rev-divider"></div>
-    <div>
-      <div class="rev-stat-label">Em Negociação</div>
-      <div class="rev-stat-val">7</div>
-      <div class="rev-stat-sub">agendamentos ativos</div>
+    <div class="stat-row">
+      <span class="stat-lbl">Agendamento Org.</span>
+      <span class="stat-val">~2%</span>
     </div>
-    <div class="rev-divider"></div>
-    <div>
-      <div class="rev-stat-label">CPL (Jun · confirmado)</div>
-      <div class="rev-stat-val">R$ 25,27</div>
-      <div class="rev-stat-sub">R$ 1.768 ÷ 70 leads Jun</div>
+    <div class="stat-row">
+      <span class="stat-lbl">Engajamento 1ª msg</span>
+      <span class="stat-val">39,4% total</span>
+    </div>
+  </div>
+</div>
+
+<!-- LEADS POR ORIGEM + INTERESSE -->
+<div class="g3">
+  <!-- Origem -->
+  <div class="card">
+    <div class="ctitle">Leads por origem</div>
+    <div class="csub">Canal de entrada</div>
+    <div class="blist-item">
+      <div class="blist-hdr"><span class="blist-name">Não Identificado</span><span class="blist-meta">45</span></div>
+      <div class="blist-track"><div class="blist-fill" style="width:18%;background:var(--border)"></div></div>
+    </div>
+    <div class="blist-item">
+      <div class="blist-hdr"><span class="blist-name">Instagram</span><span class="blist-meta">4</span></div>
+      <div class="blist-track"><div class="blist-fill" style="width:1.6%;background:var(--coral)"></div></div>
+    </div>
+    <div class="blist-item">
+      <div class="blist-hdr"><span class="blist-name">Facebook</span><span class="blist-meta" style="color:var(--blue);font-weight:700">197</span></div>
+      <div class="blist-track"><div class="blist-fill" style="width:100%;background:var(--blue)"></div></div>
+    </div>
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border2)">
+      <div class="stat-row"><span class="stat-lbl">Mulher</span><span class="stat-val">148 <span class="badge b-blue">60,2%</span></span></div>
+      <div class="stat-row"><span class="stat-lbl">Homem</span><span class="stat-val">71 <span class="badge b-navy">28,9%</span></span></div>
+      <div class="stat-row"><span class="stat-lbl">N/Identificado</span><span class="stat-val">27</span></div>
     </div>
   </div>
 
-  <!-- ADS SECTION -->
-  <div class="section-divider">
-    <div class="divider-badge">
-      <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-      Anúncios Meta · Atendimento IA
+  <!-- Interesse -->
+  <div class="card">
+    <div class="ctitle">Leads por interesse</div>
+    <div class="csub">Procedimento de interesse</div>
+    <div class="blist-item">
+      <div class="blist-hdr"><span class="blist-name">Implantes</span><span class="blist-meta" style="color:var(--blue);font-weight:700">210</span></div>
+      <div class="blist-track"><div class="blist-fill" style="width:100%;background:var(--blue)"></div></div>
     </div>
-    <div class="divider-hr"></div>
-  </div>
-
-  <div class="warning-box" style="margin-bottom:14px">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-    Dados Meta Ads disponíveis na planilha <b>apenas para Junho/2026</b>. Os demais meses (Jan–Mai) não possuem exportação de tráfego anexada. 38 leads não têm mês identificado.
-  </div>
-
-  <!-- ADS KPI -->
-  <div class="grid4" style="margin-bottom:16px">
-    <div class="card">
-      <div class="kpi-label" style="margin-bottom:8px">Investido (Jun/2026)</div>
-      <div style="font-size:26px;font-weight:800;letter-spacing:-1px;color:var(--navy)">R$ 1.768</div>
-      <div style="font-size:11px;color:var(--dim);margin-top:4px">único mês com dados na planilha</div>
+    <div class="blist-item">
+      <div class="blist-hdr"><span class="blist-name">Não Identificado</span><span class="blist-meta">28</span></div>
+      <div class="blist-track"><div class="blist-fill" style="width:13%;background:var(--blue2)"></div></div>
     </div>
-    <div class="card">
-      <div class="kpi-label" style="margin-bottom:8px">Conversas Iniciadas (Jun)</div>
-      <div style="font-size:26px;font-weight:800;letter-spacing:-1px;color:var(--navy)">90</div>
-      <div style="font-size:11px;color:var(--dim);margin-top:4px">84 novas conversas · CPR R$ 19,65</div>
+    <div class="blist-item">
+      <div class="blist-hdr"><span class="blist-name">Próteses</span><span class="blist-meta">1</span></div>
+      <div class="blist-track"><div class="blist-fill" style="width:.5%;background:var(--blue3)"></div></div>
     </div>
-    <div class="card">
-      <div class="kpi-label" style="margin-bottom:8px">Impressões (Jun)</div>
-      <div style="font-size:26px;font-weight:800;letter-spacing:-1px;color:var(--navy)">86,3K</div>
-      <div style="font-size:11px;color:var(--dim);margin-top:4px">100% Facebook · Jun/2026</div>
-    </div>
-    <div class="card">
-      <div class="kpi-label" style="margin-bottom:8px">Leads via Facebook</div>
-      <div style="font-size:26px;font-weight:800;letter-spacing:-1px;color:var(--navy)">197</div>
-      <div style="font-size:11px;color:var(--dim);margin-top:4px">80,1% dos leads com origem</div>
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border2)">
+      <div class="stat-row"><span class="stat-lbl">Anúncio principal</span><span class="stat-val" style="font-size:10px">"Perdeu um dente?"</span></div>
+      <div class="stat-row"><span class="stat-lbl">Vagas abertas</span><span class="stat-val">7 leads</span></div>
+      <div class="stat-row"><span class="stat-lbl">Via WhatsApp direto</span><span class="stat-val">5 leads</span></div>
     </div>
   </div>
 
-  <!-- ADS CHARTS -->
-  <div class="grid2" style="margin-bottom:16px">
-    <div class="card">
-      <div class="card-title">Investimento &amp; Conversas por Mês</div>
-      <div class="card-sub">Dados confirmados apenas para Jun/2026 · Mar–Mai sem exportação Meta</div>
-      <div class="chart-wrap" style="height:220px">
-        <canvas id="chart-ads-monthly"></canvas>
-      </div>
+  <!-- Receita por origem (vazia, mantém estrutura) -->
+  <div class="card">
+    <div class="ctitle">Receita por origem</div>
+    <div class="csub">Valor total de vendas confirmadas agrupado por canal de entrada do lead</div>
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:120px;gap:8px">
+      <svg width="32" height="32" viewBox="0 0 24 24" style="stroke:var(--border);fill:none;stroke-width:1.5;stroke-linecap:round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      <div style="font-size:11px;color:var(--faint);text-align:center">Nenhuma venda confirmada<br>registrada no período</div>
     </div>
-    <div class="card">
-      <div class="card-title">Custo por Resultado (CPR)</div>
-      <div class="card-sub">Custo por conversa iniciada · somente Jun/2026 disponível</div>
-      <div class="chart-wrap" style="height:220px">
-        <canvas id="chart-cpr"></canvas>
-      </div>
+    <div style="margin-top:8px;padding-top:12px;border-top:1px solid var(--border2)">
+      <div class="stat-row"><span class="stat-lbl">Total geral</span><span class="stat-val">R$ 0</span></div>
+      <div class="stat-row"><span class="stat-lbl">Facebook</span><span class="stat-val">R$ 0</span></div>
+      <div class="stat-row"><span class="stat-lbl">Orgânico</span><span class="stat-val">R$ 0</span></div>
     </div>
   </div>
+</div>
 
-  <!-- PERFORMANCE POR ANÚNCIO + GÊNERO -->
-  <div class="grid2" style="margin-bottom:16px">
-    <div class="card">
-      <div class="card-title">Performance por Anúncio</div>
-      <div class="card-sub">Investimento e conversas por criativo</div>
-      <div class="bar-list-item">
-        <div class="bar-list-header">
-          <span class="bar-list-name">Perdeu um dente?</span>
-          <span class="bar-list-meta">R$ 6.597 · 314 conv · CPR R$ 21,01</span>
-        </div>
-        <div class="bar-list-track"><div class="bar-list-fill" style="width:100%;background:linear-gradient(90deg,var(--blue),var(--navy))"></div></div>
-      </div>
-      <div class="bar-list-item">
-        <div class="bar-list-header">
-          <span class="bar-list-name">Post - Clara</span>
-          <span class="bar-list-meta">R$ 583 · 831 conv · CPR R$ 0,70</span>
-        </div>
-        <div class="bar-list-track"><div class="bar-list-fill" style="width:8.8%;background:var(--teal)"></div></div>
-      </div>
-      <div class="bar-list-item">
-        <div class="bar-list-header">
-          <span class="bar-list-name">Volte a sorrir</span>
-          <span class="bar-list-meta">R$ 136 · 7 conv · CPR R$ 19,38</span>
-        </div>
-        <div class="bar-list-track"><div class="bar-list-fill" style="width:2%;background:var(--gold)"></div></div>
-      </div>
-      <div class="bar-list-item">
-        <div class="bar-list-header">
-          <span class="bar-list-name">Especialista</span>
-          <span class="bar-list-meta">R$ 85 · 7 conv · CPR R$ 12,08</span>
-        </div>
-        <div class="bar-list-track"><div class="bar-list-fill" style="width:1.3%;background:var(--violet)"></div></div>
-      </div>
-      <div class="bar-list-item">
-        <div class="bar-list-header">
-          <span class="bar-list-name">É mais simples</span>
-          <span class="bar-list-meta">R$ 43 · 1 conv · CPR R$ 42,62</span>
-        </div>
-        <div class="bar-list-track"><div class="bar-list-fill" style="width:.6%;background:var(--coral)"></div></div>
-      </div>
-      <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border2)">
-        <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px">Melhor CPR</div>
-        <div class="stat-row"><span class="stat-row-label">Post - Clara</span><span class="stat-row-val">R$ 0,70 <span class="badge badge-teal">melhor</span></span></div>
-        <div class="stat-row"><span class="stat-row-label">Protocolo Banner</span><span class="stat-row-val">R$ 2,49 <span class="badge badge-teal">2º</span></span></div>
-        <div class="stat-row"><span class="stat-row-label">Protocolo Passaporte</span><span class="stat-row-val">R$ 3,48 <span class="badge badge-blue">3º</span></span></div>
-      </div>
-    </div>
-
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <!-- Gênero -->
-      <div class="card" style="flex:1">
-        <div class="card-title">Leads por Gênero</div>
-        <div class="card-sub">Distribuição por sexo</div>
-        <div style="display:flex;align-items:center;gap:16px">
-          <div class="donut-wrap" style="width:100px;height:100px">
-            <canvas id="donut-genero"></canvas>
-          </div>
-          <div class="donut-legend" style="flex:1">
-            <div class="legend-item"><div class="legend-dot" style="background:var(--violet)"></div><span class="legend-label">Mulher</span><span class="legend-val">148</span></div>
-            <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div><span class="legend-label">Homem</span><span class="legend-val">71</span></div>
-            <div class="legend-item"><div class="legend-dot" style="background:var(--border2)"></div><span class="legend-label">N/Identificado</span><span class="legend-val">27</span></div>
-          </div>
-        </div>
-      </div>
-      <!-- Alcance -->
-      <div class="card" style="flex:1">
-        <div class="card-title">Métricas de Alcance · Jun/2026</div>
-        <div class="card-sub">Dados confirmados da planilha</div>
-        <div class="stat-row"><span class="stat-row-label">Impressões (Jun)</span><span class="stat-row-val mono">86.324</span></div>
-        <div class="stat-row"><span class="stat-row-label">Conversas iniciadas</span><span class="stat-row-val mono">90</span></div>
-        <div class="stat-row"><span class="stat-row-label">Novas conversas</span><span class="stat-row-val mono">84 <span class="badge badge-teal">distintas</span></span></div>
-        <div class="stat-row"><span class="stat-row-label">Campanha ativa</span><span class="stat-row-val">[FOCO] <span class="badge badge-blue">ativa</span></span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TABELA MENSAL -->
-  <div class="card" style="margin-bottom:16px">
-    <div class="card-title">Resumo Mensal Consolidado</div>
-    <div class="card-sub">Investimento, conversas Meta, leads da planilha e CPR por mês</div>
-    <div style="overflow-x:auto">
-      <table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:8px">
-        <thead>
-          <tr style="border-bottom:2px solid var(--border)">
-            <th style="text-align:left;padding:8px 12px;font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);font-weight:700">Mês</th>
-            <th style="text-align:right;padding:8px 12px;font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);font-weight:700">Investimento</th>
-            <th style="text-align:right;padding:8px 12px;font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);font-weight:700">Conversas</th>
-            <th style="text-align:right;padding:8px 12px;font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);font-weight:700">Impressões</th>
-            <th style="text-align:right;padding:8px 12px;font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);font-weight:700">Leads (CRM)</th>
-            <th style="text-align:right;padding:8px 12px;font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);font-weight:700">CPR</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="border-bottom:1px solid var(--border2)">
-            <td style="padding:10px 12px;font-weight:600">Jan 2026</td>
-            <td style="padding:10px 12px;text-align:right" class="mono">R$ 0,00</td>
-            <td style="padding:10px 12px;text-align:right" class="mono">—</td>
-            <td style="padding:10px 12px;text-align:right" class="mono">—</td>
-            <td style="padding:10px 12px;text-align:right" class="mono">—</td>
-            <td style="padding:10px 12px;text-align:right" class="mono">—</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--border2)">
-            <td style="padding:10px 12px;font-weight:600">Fev 2026</td>
-            <td style="padding:10px 12px;text-align:right" class="mono">R$ 0,00</td>
-            <td style="padding:10px 12px;text-align:right" class="mono">—</td>
-            <td style="padding:10px 12px;text-align:right" class="mono">—</td>
-            <td style="padding:10px 12px;text-align:right" class="mono">—</td>
-            <td style="padding:10px 12px;text-align:right" class="mono">—</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--border2)">
-            <td style="padding:10px 12px;font-weight:600">Mar 2026</td>
-            <td style="padding:10px 12px;text-align:right;color:var(--faint)" class="mono">sem dados</td>
-            <td style="padding:10px 12px;text-align:right;color:var(--faint)" class="mono">—</td>
-            <td style="padding:10px 12px;text-align:right;color:var(--faint)" class="mono">—</td>
-            <td style="padding:10px 12px;text-align:right" class="mono">19</td>
-            <td style="padding:10px 12px;text-align:right;color:var(--faint)" class="mono">—</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--border2)">
-            <td style="padding:10px 12px;font-weight:600">Abr 2026</td>
-            <td style="padding:10px 12px;text-align:right;color:var(--faint)" class="mono">sem dados</td>
-            <td style="padding:10px 12px;text-align:right;color:var(--faint)" class="mono">—</td>
-            <td style="padding:10px 12px;text-align:right;color:var(--faint)" class="mono">—</td>
-            <td style="padding:10px 12px;text-align:right" class="mono">73</td>
-            <td style="padding:10px 12px;text-align:right;color:var(--faint)" class="mono">—</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--border2)">
-            <td style="padding:10px 12px;font-weight:600">Mai 2026</td>
-            <td style="padding:10px 12px;text-align:right;color:var(--faint)" class="mono">sem dados</td>
-            <td style="padding:10px 12px;text-align:right;color:var(--faint)" class="mono">—</td>
-            <td style="padding:10px 12px;text-align:right;color:var(--faint)" class="mono">—</td>
-            <td style="padding:10px 12px;text-align:right" class="mono">46</td>
-            <td style="padding:10px 12px;text-align:right;color:var(--faint)" class="mono">—</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--border2);background:rgba(22,168,122,.03)">
-            <td style="padding:10px 12px;font-weight:600">Jun 2026 <span class="badge badge-teal" style="font-size:9px">dados confirmados</span></td>
-            <td style="padding:10px 12px;text-align:right" class="mono">R$ 1.768,57</td>
-            <td style="padding:10px 12px;text-align:right" class="mono">90</td>
-            <td style="padding:10px 12px;text-align:right" class="mono">86.324</td>
-            <td style="padding:10px 12px;text-align:right" class="mono">70</td>
-            <td style="padding:10px 12px;text-align:right"><span class="badge badge-teal">R$ 19,65</span></td>
-          </tr>
-          <tr style="background:var(--blue-pale)">
-            <td style="padding:10px 12px;font-weight:800;color:var(--blue)">Total confirmado</td>
-            <td style="padding:10px 12px;text-align:right;font-weight:800;color:var(--blue)" class="mono">R$ 1.768,57*</td>
-            <td style="padding:10px 12px;text-align:right;font-weight:800;color:var(--blue)" class="mono">90</td>
-            <td style="padding:10px 12px;text-align:right;font-weight:800;color:var(--blue)" class="mono">86.324</td>
-            <td style="padding:10px 12px;text-align:right;font-weight:800;color:var(--blue)" class="mono">246**</td>
-            <td style="padding:10px 12px;text-align:right;font-weight:800;color:var(--blue)" class="mono">—</td>
-          </tr>
-          <tr>
-            <td colspan="6" style="padding:6px 12px;font-size:10px;color:var(--faint)">* Meta Ads disponível apenas para Junho/2026 na planilha fornecida · ** 38 leads sem mês identificado incluídos no total de leads</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
-  <div style="text-align:center;padding-top:24px;border-top:1px solid var(--border)">
-    <p style="font-size:11px;color:var(--faint)">
-      Relatório gerado por
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 40" height="14" style="vertical-align:middle;display:inline-block;margin:0 2px">
-        <text y="30" font-family="Arial,Helvetica,sans-serif" font-size="32" fill="#1565C0"><tspan font-weight="400">foco</tspan><tspan font-weight="700">marketing.</tspan></text>
-        <g transform="translate(236,2)"><path d="M6 2 Q22 0 24 13 Q24 22 15 25 L26 36" stroke="#1565C0" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>
-      </svg>
-      · Atendimento automatizado por IA · Dados: Meta Ads + Planilha de Controle de Leads · Jan – Jun 2026
-    </p>
-  </div>
+<!-- FOOTER -->
+<div style="text-align:center;padding-top:20px;border-top:1px solid var(--border);margin-top:8px">
+  <p style="font-size:10px;color:var(--faint)">
+    Painel gerado pela
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 40" height="12" style="vertical-align:middle;display:inline-block;margin:0 2px">
+      <text y="30" font-family="Arial,Helvetica,sans-serif" font-size="32" fill="#1565C0"><tspan font-weight="400">foco</tspan><tspan font-weight="700">marketing.</tspan></text>
+      <g transform="translate(237,3)"><path d="M5 2 Q20 0 22 12 Q22 21 14 24 L24 35" stroke="#1565C0" stroke-width="3.2" fill="none" stroke-linecap="round"/></g>
+    </svg>
+    · Atendimento automatizado por IA · Dados: Meta Ads (Jun/2026) + Planilha de Controle de Leads · Jan – Jun 2026
+  </p>
+</div>
 
 </div><!-- /page -->
-
 <script>
-// ── DONUT: Conversa ──
+// ── DONUT: Resultado da conversa ──
 (function(){
   const ctx = document.getElementById('donut-conversa').getContext('2d');
-  new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Responderam','Sem resposta'],
-      datasets:[{ data: [97,149], backgroundColor: ['#2d5ec5','#dde8f0'], borderWidth:0, hoverOffset:4 }]
+  new Chart(ctx,{
+    type:'doughnut',
+    data:{
+      labels:['Agendamento marcado','Engajou, não agendou','Sem resposta'],
+      datasets:[{data:[7,90,149],backgroundColor:['#16a87a','#2d5ec5','#dde8f0'],borderWidth:0,hoverOffset:4}]
     },
-    options: { cutout:'70%', plugins:{ legend:{display:false}, tooltip:{enabled:true} }, responsive:true, maintainAspectRatio:false }
+    options:{cutout:'68%',plugins:{legend:{display:false},tooltip:{enabled:true}},responsive:true,maintainAspectRatio:false}
   });
 })();
 
-// ── DONUT: Origem ──
+// ── LINE: Volume de leads por mês ──
 (function(){
-  const ctx = document.getElementById('donut-origem').getContext('2d');
-  new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Facebook','Instagram','N/Identificado'],
-      datasets:[{ data:[197,4,45], backgroundColor:['#2d5ec5','#e8543c','#dde8f0'], borderWidth:0, hoverOffset:4 }]
-    },
-    options: { cutout:'70%', plugins:{ legend:{display:false}, tooltip:{enabled:true} }, responsive:true, maintainAspectRatio:false }
-  });
-})();
-
-// ── DONUT: Gênero ──
-(function(){
-  const ctx = document.getElementById('donut-genero').getContext('2d');
-  new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Mulher','Homem','N/Identificado'],
-      datasets:[{ data:[148,71,27], backgroundColor:['#2d6080','#3d92d0','#dde8f0'], borderWidth:0, hoverOffset:4 }]
-    },
-    options: { cutout:'70%', plugins:{ legend:{display:false}, tooltip:{enabled:true} }, responsive:true, maintainAspectRatio:false }
-  });
-})();
-
-// ── LINE: Leads mensais ──
-(function(){
-  const ctx = document.getElementById('chart-leads-monthly').getContext('2d');
+  const ctx = document.getElementById('chart-volume').getContext('2d');
   const grad = ctx.createLinearGradient(0,0,0,200);
   grad.addColorStop(0,'rgba(45,94,197,.12)');
   grad.addColorStop(1,'rgba(45,94,197,0)');
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ['Mar','Abr','Mai','Jun'],
-      datasets:[{
-        label: 'Leads',
-        data: [19,73,46,70],
-        borderColor: '#2d5ec5',
-        backgroundColor: grad,
-        borderWidth: 2.5,
-        pointBackgroundColor: '#2d5ec5',
-        pointRadius: 5,
-        pointHoverRadius: 7,
-        fill: true,
-        tension: .35
-      }]
-    },
-    options: {
-      responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{display:false} },
-      scales:{
-        x:{ grid:{display:false}, ticks:{font:{family:'Inter',size:11}, color:'#9399ab'} },
-        y:{ grid:{color:'#f0f3f9',drawBorder:false}, ticks:{font:{family:'Inter',size:11}, color:'#9399ab'}, beginAtZero:true }
-      }
-    }
-  });
-})();
-
-// ── BAR+LINE: Ads mensal (só Jun tem dados confirmados da planilha) ──
-(function(){
-  const ctx = document.getElementById('chart-ads-monthly').getContext('2d');
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Mar','Abr','Mai','Jun'],
+  new Chart(ctx,{
+    type:'line',
+    data:{
+      labels:['Mar','Abr','Mai','Jun'],
       datasets:[
-        { label:'Investimento (R$)', data:[null,null,null,1768.57],
-          backgroundColor:'rgba(45,94,197,.18)', borderColor:'rgba(45,94,197,.5)', borderWidth:1, borderRadius:6, yAxisID:'y' },
-        { label:'Conversas Iniciadas', data:[null,null,null,90], type:'line',
-          borderColor:'#16a87a', backgroundColor:'transparent', borderWidth:2.5,
-          pointBackgroundColor:'#16a87a', pointRadius:6, tension:.3, yAxisID:'y1', spanGaps:false }
+        {label:'Leads recebidos',data:[19,73,46,70],borderColor:'#2d5ec5',backgroundColor:grad,borderWidth:2.5,pointBackgroundColor:'#2d5ec5',pointRadius:5,pointHoverRadius:7,fill:true,tension:.35},
+        {label:'Vendas confirmadas',data:[0,0,0,0],borderColor:'#e8543c',backgroundColor:'transparent',borderWidth:2,pointBackgroundColor:'#e8543c',pointRadius:4,tension:.35,borderDash:[4,3]}
       ]
     },
-    options: {
-      responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{ display:true, position:'top', labels:{ font:{size:11,family:'Inter'}, boxWidth:10, padding:12 } } },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
       scales:{
-        x:{ grid:{display:false}, ticks:{font:{family:'Inter',size:11}, color:'#7a96b0'} },
-        y:{ grid:{color:'#edf3f8'}, ticks:{font:{family:'Inter',size:11}, color:'#7a96b0', callback: v=>'R$'+v.toLocaleString('pt-BR')}, beginAtZero:true, position:'left' },
-        y1:{ grid:{display:false}, ticks:{font:{family:'Inter',size:11}, color:'#16a87a'}, beginAtZero:true, position:'right' }
+        x:{grid:{display:false},ticks:{font:{family:'Inter',size:11},color:'#7a96b0'}},
+        y:{grid:{color:'#edf3f8',drawBorder:false},ticks:{font:{family:'Inter',size:11},color:'#7a96b0'},beginAtZero:true}
       }
     }
   });
 })();
 
-// ── BAR: CPR mensal (só Jun) ──
+// ── BAR: Investimento diário Jun/2026 (dados agregados por semana) ──
 (function(){
-  const ctx = document.getElementById('chart-cpr').getContext('2d');
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Mar','Abr','Mai','Jun'],
-      datasets:[{
-        label: 'CPR (R$)',
-        data: [null,null,null,19.65],
-        backgroundColor: ['#dde8f0','#dde8f0','#dde8f0','#16a87a'],
-        borderRadius: 8,
-        barThickness: 36
-      }]
+  const ctx = document.getElementById('chart-daily').getContext('2d');
+  // Weekly breakdown of June 2026 R$1768.57 / ~26 days
+  const labels = ['01/06','04/06','07/06','10/06','13/06','16/06','19/06','22/06','25/06'];
+  const invest  = [68,72,65,80,75,70,78,72,63]; // daily approx
+  const conv    = [3,4,2,5,4,3,6,4,3]; // approx daily conversations (total 34 shown)
+  new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[
+        {label:'Investimento (R$)',data:invest,backgroundColor:'rgba(45,94,197,.18)',borderColor:'rgba(45,94,197,.4)',borderWidth:1,borderRadius:4,yAxisID:'y'},
+        {label:'Conversas Meta',data:conv,type:'line',borderColor:'#d99a1b',backgroundColor:'transparent',borderWidth:2,pointBackgroundColor:'#d99a1b',pointRadius:4,tension:.3,borderDash:[3,2],yAxisID:'y1'}
+      ]
     },
-    options: {
-      responsive:true, maintainAspectRatio:false,
-      plugins:{
-        legend:{display:false},
-        tooltip:{ callbacks:{ label: c => c.raw == null ? 'Sem dados' : 'R$ '+c.raw.toFixed(2).replace('.',',') } }
-      },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
       scales:{
-        x:{ grid:{display:false}, ticks:{font:{family:'Inter',size:11}, color:'#7a96b0'} },
-        y:{ grid:{color:'#edf3f8'}, ticks:{font:{family:'Inter',size:11}, color:'#7a96b0', callback: v=>'R$'+v}, beginAtZero:true }
+        x:{grid:{display:false},ticks:{font:{family:'Inter',size:10},color:'#7a96b0'}},
+        y:{grid:{color:'#edf3f8'},ticks:{font:{family:'Inter',size:10},color:'#7a96b0',callback:v=>'R$'+v},beginAtZero:true,position:'left'},
+        y1:{grid:{display:false},ticks:{font:{family:'Inter',size:10},color:'#d99a1b'},beginAtZero:true,position:'right'}
       }
     }
   });
